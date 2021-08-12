@@ -1,6 +1,28 @@
 import 'emoji-log';
-import {browser} from 'webextension-polyfill-ts';
+import {browser, Tabs} from 'webextension-polyfill-ts';
 
-browser.runtime.onInstalled.addListener((): void => {
-  console.emoji('🦄', 'extension installed');
-});
+const injectContentScript = async (): Promise<boolean> => {
+  const executing = await browser.tabs.executeScript({
+    file: '/js/contentScript.bundle.js',
+  });
+  if (executing[0] === true) {
+    console.warn('Content script injected 🎉');
+    return true;
+  }
+  return false;
+};
+
+const handleTabUpdate = (
+  tabId: number,
+  changeInfo: Tabs.OnUpdatedChangeInfoType,
+  tab: Tabs.Tab
+): void => {
+  // inject content script
+  // TODO: inject based on url
+  const isWantedUrl = true;
+  if (isWantedUrl && changeInfo.status === 'complete') {
+    injectContentScript(); // async
+  }
+};
+
+browser.tabs.onUpdated.addListener(handleTabUpdate);

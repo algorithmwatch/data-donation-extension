@@ -63,13 +63,7 @@
     "__chrome|opera__persistent": false
   },
 
-  "content_scripts": [{
-    "matches": [
-      "http://*/*",
-      "https://*/*"
-    ],
-    "js": [
+  "web_accessible_resources": [
       "js/contentScript.bundle.js"
-    ]
-  }]
+  ]
 }
