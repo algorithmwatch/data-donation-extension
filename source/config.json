@@ -1,0 +1,9 @@
+{
+  "name": "Testconfig",
+  "steps": [
+    {
+      "name": "doSomething",
+      "someprop": "Hello. This is an instruction!"
+    }
+  ]
+}
