@@ -1,21 +1,7 @@
 import 'emoji-log';
 import {browser, Tabs} from 'webextension-polyfill-ts';
 import stepsConfig from '../config.json';
-import doSomething from '../steps/doSomething';
-
-const stepsMap: {[key: string]: Step} = {
-  doSomething,
-};
-
-interface ConfigStep {
-  name: string;
-  someprop: string;
-}
-
-interface Config {
-  name: string;
-  steps: ConfigStep[];
-}
+import StepsHandler from './StepsHandler';
 
 const injectContentScript = async (): Promise<boolean> => {
   const executing = await browser.tabs.executeScript({
@@ -39,17 +25,6 @@ const handleTabUpdate = (
   if (isWantedUrl && changeInfo.status === 'complete') {
     injectContentScript(); // async
   }
-};
-
-const StepsHandler = {
-  steps: [],
-  currentStep: null,
-  setup(config: Config): void {
-    // init steps
-    for (const step of config.steps) {
-      this.steps.push(stepsMap[step.name].createBackgroundStep());
-    }
-  },
 };
 
 StepsHandler.setup(stepsConfig);

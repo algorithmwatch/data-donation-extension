@@ -1,4 +1,4 @@
-import {Step} from '../types/global';
+import {Step} from '../types';
 
 const doSomething: Step = {
   createBackgroundStep: (config) => ({
