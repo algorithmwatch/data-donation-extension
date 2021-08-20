@@ -1,8 +1,16 @@
-import 'emoji-log';
-import ContentMessageService from './ContentMessageService';
+// import {browser} from 'webextension-polyfill-ts';
+import createMessageService from '../createMessageService';
 
-console.emoji('🦄', 'helloworld from content script');
+const messageService = createMessageService();
+messageService.createConnection();
+messageService.addMessageListener((message: any): void => {
+  console.warn('content script: received message', message);
+});
 
-// ContentMessageService.setup();
+// send message on injection
+messageService.sendMessage({
+  type: 'content-script-injected',
+  data: {text: 'hello'},
+});
 
 export {};

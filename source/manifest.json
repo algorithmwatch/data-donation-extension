@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Sample WebExtension",
-  "version": "0.0.0",
+  "version": "0.0.1",
 
   "icons": {
     "16": "assets/icons/favicon-16.png",
@@ -16,6 +16,7 @@
   "permissions": [
     "activeTab",
     "storage",
+    "tabs",
     "http://*/*",
     "https://*/*"
   ],
@@ -63,7 +64,13 @@
     "__chrome|opera__persistent": false
   },
 
-  "web_accessible_resources": [
+  "content_scripts": [{
+    "matches": [
+      "http://*/*",
+      "https://*/*"
+    ],
+    "js": [
       "js/contentScript.bundle.js"
-  ]
+    ]
+  }]
 }

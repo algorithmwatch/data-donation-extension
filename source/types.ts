@@ -13,6 +13,6 @@ export interface BackgroundStep {
   run: () => void;
 }
 
-export interface Step {
-  createBackgroundStep: (config: any) => BackgroundStep;
-}
+// export interface Step {
+//   createBackgroundStep: (config: any) => BackgroundStep;
+// }
