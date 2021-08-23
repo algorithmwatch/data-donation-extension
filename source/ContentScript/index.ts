@@ -7,11 +7,11 @@ messageService.addMessageListener((message): void => {
   console.warn('content script: received message', message);
 });
 
-// send message on injection
+// send message on injection (is fired when Document.readyState is "document_idle")
 messageService.sendMessage({
   type: 'step',
   data: {
-    name: 'content-script-injected',
+    name: 'inject-content-script',
     completed: true,
   },
 });

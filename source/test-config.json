@@ -3,10 +3,10 @@
   "matches": ["https://www.spiegel.de"],
   "steps": [
     {
-      "name": "content-script-injected"
+      "name": "inject-content-script"
     },
     {
-      "name": "something-else"
+      "name": "show-instruction-container "
     }
   ]
 }
