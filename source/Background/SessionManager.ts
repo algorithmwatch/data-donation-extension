@@ -1,78 +1,11 @@
-import cloneDeep from 'lodash/cloneDeep';
-import {
-  ConfigModel,
-  Session,
-  SessionManager,
-  Config,
-  StepModel,
-  Step,
-  HandleStepResult,
-} from '../types';
+import {ConfigModel, Session, SessionManager, MessageService} from '../types';
+import createConfig from './Config';
 
-const createStep = (stepModel: StepModel): Step => ({
-  ...cloneDeep(stepModel),
-  data: null,
-
-  saveData(data): void {
-    if (!this.data) {
-      this.data = data;
-    } else {
-      this.data = [...this.data, data];
-    }
-  },
-});
-
-const createConfig = ({name, matches, steps}: ConfigModel): Config => ({
-  name,
-  matches,
-  steps: steps.map((s) => createStep(s)),
-  currentStepIndex: 0,
-
-  /**
-   * Map step name with current step and append data if provided.
-   * If step is completed, increase step index and return next step name.
-   */
-  handleStep({name: stepName, completed, data}): HandleStepResult {
-    console.warn('Handling step', {stepName, completed, data});
-    const currentStep = this.getCurrentStep();
-    const result: HandleStepResult = {
-      nextStepName: null,
-      allStepsCompleted: false,
-    };
-
-    if (currentStep.name !== stepName) {
-      console.debug(
-        `Step "${stepName}" not a current step in config "${this.name}" (current step is "${currentStep.name}")`
-      );
-      return result;
-    }
-
-    if (data) {
-      currentStep.saveData(data);
-    }
-
-    if (completed === true) {
-      this.setNextStepIndex();
-      result.nextStepName = this.getCurrentStep().name;
-    }
-
-    result.allStepsCompleted = this.steps.length - 1 === this.currentStepIndex;
-
-    return result;
-  },
-
-  getCurrentStep(): Step {
-    return this.steps[this.currentStepIndex];
-  },
-
-  setNextStepIndex(): void {
-    const nextIndex = this.currentStepIndex + 1;
-    this.currentStepIndex =
-      nextIndex >= this.steps.length ? this.currentStepIndex : nextIndex;
-  },
-});
-
-const createSessionManager = (configModels: ConfigModel[]): SessionManager => ({
+const createSessionManager = (
+  configModels: ConfigModel[],
+  messageService: MessageService
+): SessionManager => ({
+  messageService,
   configModels,
   sessions: [],
 
@@ -88,14 +21,11 @@ const createSessionManager = (configModels: ConfigModel[]): SessionManager => ({
     }
   },
 
-  /**
-   * Get session by tab id and handle step.
-   * If session does not exist, create session by
-   * config model that matches tab url
-   */
   handleStepMessage(step, tab): void {
     let session = this.findSession(tab.id);
 
+    // Get session by tab id or create session by
+    // config model that matches tab url.
     if (!session) {
       const config = this.findConfigModel(tab.url);
 
@@ -108,7 +38,22 @@ const createSessionManager = (configModels: ConfigModel[]): SessionManager => ({
     }
 
     if (session) {
-      session.config.handleStep(step);
+      // Send message to content script with next step info
+      const {nextStepName, allStepsCompleted} = session.config.handleStep(step);
+
+      if (nextStepName) {
+        this.messageService.sendMessage({
+          type: 'step',
+          data: {
+            name: nextStepName,
+          },
+        });
+      }
+
+      // Do something when everything is complete
+      if (allStepsCompleted) {
+        console.log(`All ${session.config.steps.length} steps completed`);
+      }
     }
   },
 

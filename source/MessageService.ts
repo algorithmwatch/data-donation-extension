@@ -1,15 +1,5 @@
-import {browser, Runtime, Tabs} from 'webextension-polyfill-ts';
-
-interface MessageService {
-  connectionName: string;
-  connection: null | Runtime.Port;
-  createConnection: () => void;
-  addConnectListener: (cb: () => void) => void;
-  addMessageListener: (
-    messageHandler: (message: any, tab?: Tabs.Tab) => void
-  ) => void;
-  sendMessage: (message: any) => void;
-}
+import {browser} from 'webextension-polyfill-ts';
+import {MessageService} from './types';
 
 const createMessageService = (): MessageService => ({
   connectionName: 'datadonation',
@@ -41,14 +31,12 @@ const createMessageService = (): MessageService => ({
     if (!this.connection) {
       throw new Error('Connection is null');
     }
-    this.connection?.onMessage.addListener(
-      (message: any, port: Runtime.Port) => {
-        messageHandler(message, port.sender?.tab);
-      }
-    );
+    this.connection?.onMessage.addListener((message, port) => {
+      messageHandler(message, port.sender?.tab);
+    });
   },
 
-  sendMessage(message: any): void {
+  sendMessage(message): void {
     this.connection?.postMessage(message);
   },
 });

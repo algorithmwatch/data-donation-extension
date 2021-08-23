@@ -1,14 +1,19 @@
 import 'emoji-log';
-import {browser, Tabs} from 'webextension-polyfill-ts';
 import testConfig from '../test-config.json';
 import createMessageService from '../MessageService';
 import createSessionManager from './SessionManager';
+import {ConfigModel, ContentScriptMessage} from '../types';
 
-const sessionManager = createSessionManager([testConfig]);
 const messageService = createMessageService();
-messageService.addConnectListener(() =>
-  messageService.addMessageListener(sessionManager.handleMessage)
-);
+messageService.addConnectListener(() => {
+  const sessionManager = createSessionManager(
+    [testConfig as ConfigModel],
+    messageService
+  );
+  messageService.addMessageListener((message, port) =>
+    sessionManager.handleMessage(message as ContentScriptMessage, port)
+  );
+});
 
 // const injectContentScript = async (): Promise<boolean> => {
 //   const executing = await browser.tabs.executeScript({

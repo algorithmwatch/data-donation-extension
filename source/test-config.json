@@ -6,8 +6,7 @@
       "name": "content-script-injected"
     },
     {
-      "name": "doSomething",
-      "someprop": "Hello. This is an instruction!"
+      "name": "something-else"
     }
   ]
 }

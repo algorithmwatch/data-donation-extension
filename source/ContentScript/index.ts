@@ -3,7 +3,7 @@ import createMessageService from '../MessageService';
 
 const messageService = createMessageService();
 messageService.createConnection();
-messageService.addMessageListener((message: any): void => {
+messageService.addMessageListener((message): void => {
   console.warn('content script: received message', message);
 });
 
