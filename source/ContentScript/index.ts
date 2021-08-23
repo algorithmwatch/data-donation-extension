@@ -12,6 +12,7 @@ messageService.sendMessage({
   type: 'step',
   data: {
     name: 'content-script-injected',
+    completed: true,
   },
 });
 

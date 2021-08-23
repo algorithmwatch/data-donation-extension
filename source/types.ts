@@ -1,38 +1,57 @@
 import {Tabs} from 'webextension-polyfill-ts';
 
+type StepName = 'content-script-injected' | 'something-else';
+
 export interface Message {
   type: 'step';
   data: {
-    name: 'content-script-injected';
+    name: StepName;
+    completed: boolean;
+    data?: any;
   };
 }
 
-export interface ConfigStep {
-  name: string;
+export interface StepModel {
+  name: StepName;
   someprop?: string;
 }
 
-export interface JSONConfig {
+export interface ConfigModel {
   name: string;
   matches: string[];
-  steps: ConfigStep[];
+  steps: StepModel[];
 }
 
-export interface SessionConfig extends JSONConfig {
-  handleStep: (step: Message['data']) => void;
+export interface Step extends StepModel {
+  test?: (step: Message['data']) => void;
+  data: any;
+  saveData: (data: any) => void;
+}
+
+export interface HandleStepResult {
+  nextStepName: StepName | null;
+  allStepsCompleted: boolean;
+}
+
+export interface Config extends ConfigModel {
+  steps: Step[];
+  currentStepIndex: number;
+  handleStep: (step: Message['data']) => HandleStepResult;
+  getCurrentStep: () => Step;
+  setNextStepIndex: () => void;
 }
 
 export interface Session {
   tab: Tabs.Tab;
-  config: SessionConfig;
+  config: Config;
 }
 
 export interface SessionManager {
-  configs: JSONConfig[];
+  configModels: ConfigModel[];
   sessions: Session[];
   handleMessage: (message: Message, tab?: Tabs.Tab) => void;
-  handleStep: (step: Message['data'], tab?: Tabs.Tab) => void;
-  findSession: (tabId: number) => Session | undefined;
-  findConfig: (tabUrl: string) => JSONConfig | undefined;
-  createSession: (config: JSONConfig, tab: Tabs.Tab) => Session;
+  handleStepMessage: (step: Message['data'], tab: Tabs.Tab) => void;
+  findSession: (tabId?: number) => Session | undefined;
+  findConfigModel: (tabUrl?: string) => ConfigModel | undefined;
+  createSession: (config: ConfigModel, tab: Tabs.Tab) => Session;
 }
