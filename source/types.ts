@@ -37,14 +37,18 @@ export interface StepModel {
   someprop?: string;
 }
 
+export interface StepProps {
+  [key: string]: any;
+}
+
 export interface Step extends StepModel {
-  props: {[key: string]: any};
+  props: StepProps;
   data: any;
   saveData: (data: any) => void;
 }
 
 export interface HandleStepResult {
-  nextStep: {[key: string]: any} | null;
+  nextStep: {name: string; props: StepProps} | null;
   allStepsCompleted: boolean;
 }
 
@@ -79,4 +83,9 @@ export interface SessionManager {
   findSession: (tabId?: number) => Session | undefined;
   findConfigModel: (tabUrl?: string) => ConfigModel | undefined;
   createSession: (config: ConfigModel, tab: Tabs.Tab) => Session;
+}
+
+export interface StepHandler {
+  name: string;
+  props: StepProps;
 }

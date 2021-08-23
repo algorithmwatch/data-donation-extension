@@ -2,7 +2,7 @@ import {browser} from 'webextension-polyfill-ts';
 import {MessageService} from './types';
 
 const createMessageService = (): MessageService => ({
-  connectionName: 'datadonation',
+  connectionName: 'aw-datadonation',
   connection: null,
 
   createConnection(): void {

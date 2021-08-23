@@ -34,7 +34,7 @@ const createConfig = ({name, matches, steps}: ConfigModel): Config => ({
       const nextStep = this.getCurrentStep();
       result.nextStep = {
         name: nextStep.name,
-        ...nextStep.props,
+        props: nextStep.props,
       };
     }
 
