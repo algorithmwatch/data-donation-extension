@@ -1,14 +1,13 @@
 import 'emoji-log';
-import {browser} from 'webextension-polyfill-ts';
-// import stepsConfig from '../config.json';
-// import StepsHandler from './StepsHandler';
-import createMessageService from '../createMessageService';
+import {browser, Tabs} from 'webextension-polyfill-ts';
+import testConfig from '../test-config.json';
+import createMessageService from '../MessageService';
+import createSessionManager from './SessionManager';
 
+const sessionManager = createSessionManager([testConfig]);
 const messageService = createMessageService();
 messageService.addConnectListener(() =>
-  messageService.addMessageListener((message: any, tab): void => {
-    console.warn('background script: received message', message, tab);
-  })
+  messageService.addMessageListener(sessionManager.handleMessage)
 );
 
 // const injectContentScript = async (): Promise<boolean> => {

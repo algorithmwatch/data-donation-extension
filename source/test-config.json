@@ -1,6 +1,10 @@
 {
   "name": "Testconfig",
+  "matches": ["https://www.spiegel.de"],
   "steps": [
+    {
+      "name": "content-script-injected"
+    },
     {
       "name": "doSomething",
       "someprop": "Hello. This is an instruction!"

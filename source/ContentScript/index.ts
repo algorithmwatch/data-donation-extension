@@ -1,5 +1,5 @@
 // import {browser} from 'webextension-polyfill-ts';
-import createMessageService from '../createMessageService';
+import createMessageService from '../MessageService';
 
 const messageService = createMessageService();
 messageService.createConnection();
@@ -9,8 +9,10 @@ messageService.addMessageListener((message: any): void => {
 
 // send message on injection
 messageService.sendMessage({
-  type: 'content-script-injected',
-  data: {text: 'hello'},
+  type: 'step',
+  data: {
+    name: 'content-script-injected',
+  },
 });
 
 export {};

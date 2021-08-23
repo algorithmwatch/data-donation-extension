@@ -14,11 +14,13 @@ interface MessageService {
 const createMessageService = (): MessageService => ({
   connectionName: 'datadonation',
   connection: null,
+
   createConnection(): void {
     this.connection = browser.runtime.connect(undefined, {
       name: this.connectionName,
     });
   },
+
   addConnectListener(cb): void {
     browser.runtime.onConnect.addListener((port) => {
       if (port.name !== this.connectionName) {
@@ -34,6 +36,7 @@ const createMessageService = (): MessageService => ({
       }
     });
   },
+
   addMessageListener(messageHandler): void {
     if (!this.connection) {
       throw new Error('Connection is null');
@@ -44,6 +47,7 @@ const createMessageService = (): MessageService => ({
       }
     );
   },
+
   sendMessage(message: any): void {
     this.connection?.postMessage(message);
   },
