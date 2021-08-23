@@ -39,14 +39,12 @@ const createSessionManager = (
 
     if (session) {
       // Send message to content script with next step info
-      const {nextStepName, allStepsCompleted} = session.config.handleStep(step);
+      const {nextStep, allStepsCompleted} = session.config.handleStep(step);
 
-      if (nextStepName) {
+      if (nextStep) {
         this.messageService.sendMessage({
           type: 'step',
-          data: {
-            name: nextStepName,
-          },
+          data: nextStep,
         });
       }
 

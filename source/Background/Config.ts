@@ -11,7 +11,7 @@ const createConfig = ({name, matches, steps}: ConfigModel): Config => ({
     console.warn('Handling step', {stepName, completed, data});
     const currentStep = this.getCurrentStep();
     const result: HandleStepResult = {
-      nextStepName: null,
+      nextStep: null,
       allStepsCompleted: this.steps.length - 1 === this.currentStepIndex,
     };
 
@@ -31,7 +31,11 @@ const createConfig = ({name, matches, steps}: ConfigModel): Config => ({
     // If step is completed, increase step index and add next step name to result.
     if (completed === true) {
       this.setNextStepIndex();
-      result.nextStepName = this.getCurrentStep().name;
+      const nextStep = this.getCurrentStep();
+      result.nextStep = {
+        name: nextStep.name,
+        ...nextStep.props,
+      };
     }
 
     return result;

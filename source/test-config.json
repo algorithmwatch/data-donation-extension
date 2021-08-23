@@ -6,7 +6,8 @@
       "name": "inject-content-script"
     },
     {
-      "name": "show-instruction-container "
+      "name": "show-instruction-container",
+      "html": ""
     }
   ]
 }

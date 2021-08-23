@@ -1,8 +1,8 @@
-import {cloneDeep} from 'lodash';
 import {StepModel, Step} from '../types';
 
-const createStep = (stepModel: StepModel): Step => ({
-  ...cloneDeep(stepModel),
+const createStep = ({name, ...props}: StepModel): Step => ({
+  name,
+  props,
   data: null,
 
   saveData(data): void {

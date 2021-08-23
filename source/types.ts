@@ -29,9 +29,7 @@ export interface ContentScriptMessage {
 
 export interface BackgroundScriptMessage {
   type: 'step';
-  data: {
-    name: StepName;
-  };
+  data: {[key: string]: any};
 }
 
 export interface StepModel {
@@ -39,21 +37,21 @@ export interface StepModel {
   someprop?: string;
 }
 
-export interface ConfigModel {
-  name: string;
-  matches: string[];
-  steps: StepModel[];
-}
-
 export interface Step extends StepModel {
-  test?: (step: ContentScriptMessage['data']) => void;
+  props: {[key: string]: any};
   data: any;
   saveData: (data: any) => void;
 }
 
 export interface HandleStepResult {
-  nextStepName: StepName | null;
+  nextStep: {[key: string]: any} | null;
   allStepsCompleted: boolean;
+}
+
+export interface ConfigModel {
+  name: string;
+  matches: string[];
+  steps: StepModel[];
 }
 
 export interface Config extends ConfigModel {
