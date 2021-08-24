@@ -3,7 +3,7 @@ import 'emoji-log';
 import testConfig from '../test-config.json';
 import createMessageService from '../MessageService';
 import createSessionManager from './SessionManager';
-import {Config, ContentScriptMessage} from '../types';
+import {Config} from '../types';
 
 const messageService = createMessageService();
 messageService.addConnectListener(() => {
@@ -11,8 +11,9 @@ messageService.addConnectListener(() => {
     [testConfig as Config],
     messageService
   );
-  messageService.addMessageListener((message, port) =>
-    sessionManager.handleMessage(message as ContentScriptMessage, port)
+  messageService.addMessageListener(
+    'content',
+    sessionManager.handleMessage.bind(sessionManager)
   );
 
   // remove session on tab close

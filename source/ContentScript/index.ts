@@ -1,7 +1,7 @@
 import {camelCase, toUpper} from 'lodash';
 import {Tabs} from 'webextension-polyfill-ts';
 import createMessageService from '../MessageService';
-import {BackgroundScriptMessage, MessageService} from '../types';
+import {GenericMessage, MessageService} from '../types';
 import steps from './steps';
 import './styles.css';
 
@@ -9,7 +9,7 @@ const pascalCase = (str: string): string =>
   camelCase(str).replace(/^(.)/, toUpper);
 
 const handleMessage = async (
-  {type, data}: BackgroundScriptMessage,
+  {type, data}: GenericMessage,
   _tab: Tabs.Tab | undefined,
   service: MessageService
 ): Promise<void> => {
@@ -22,6 +22,7 @@ const handleMessage = async (
 
     // notify background script that step is compled
     service.sendMessage({
+      from: 'content',
       type: 'step',
       data: {
         name,
@@ -34,10 +35,11 @@ const handleMessage = async (
 
 const messageService = createMessageService();
 messageService.createConnection();
-messageService.addMessageListener(handleMessage);
+messageService.addMessageListener('background', handleMessage);
 
 // send message on injection (is fired when Document.readyState is "document_idle")
 messageService.sendMessage({
+  from: 'content',
   type: 'step',
   data: {
     name: 'wait-for-page-load',

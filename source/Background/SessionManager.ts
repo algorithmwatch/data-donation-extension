@@ -40,10 +40,10 @@ const createSessionManager = (
       const {nextStep, allStepsCompleted} =
         session.stepHandler.handleStep(step);
 
-      console.warn({nextStep, allStepsCompleted});
       if (nextStep) {
         // Send message to content script with next step info
         this.messageService.sendMessage({
+          from: 'background',
           type: 'step',
           data: nextStep,
         });

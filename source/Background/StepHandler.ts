@@ -27,7 +27,7 @@ const createStepHandler = ({steps}: Config): StepHandler => ({
     }
 
     // If step is completed, increase step index and add next step name to result.
-    if (completed === true) {
+    if (completed === true && !result.allStepsCompleted) {
       this.setNextStepIndex();
       const nextStep = this.getCurrentStep();
       result.nextStep = {

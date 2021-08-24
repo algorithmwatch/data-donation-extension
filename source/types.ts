@@ -6,31 +6,22 @@ export interface MessageService {
   createConnection: () => void;
   addConnectListener: (cb: () => void) => void;
   addMessageListener: (
+    from: GenericMessage['from'],
     messageHandler: (
-      message: ContentScriptMessage | BackgroundScriptMessage,
+      message: GenericMessage,
       tab: Tabs.Tab | undefined,
       messageService: this
     ) => void
   ) => void;
-  sendMessage: (
-    message: ContentScriptMessage | BackgroundScriptMessage
-  ) => void;
+  sendMessage: (message: GenericMessage) => void;
 }
 
 type StepName = string;
 
-export interface ContentScriptMessage {
+export interface GenericMessage {
+  from: 'background' | 'content';
   type: 'step';
-  data: {
-    name: StepName;
-    completed: boolean;
-    data?: any;
-  };
-}
-
-export interface BackgroundScriptMessage {
-  type: 'step';
-  data: {[key: string]: any};
+  data?: any;
 }
 
 export interface StepModel {
@@ -63,7 +54,7 @@ export interface Config {
 export interface StepHandler {
   steps: BackgroundStep[];
   currentStepIndex: number;
-  handleStep: (step: ContentScriptMessage['data']) => HandleStepResult;
+  handleStep: (step: GenericMessage['data']) => HandleStepResult;
   getCurrentStep: () => BackgroundStep;
   setNextStepIndex: () => void;
 }
@@ -78,11 +69,8 @@ export interface SessionManager {
   messageService: MessageService;
   configs: Config[];
   sessions: Session[];
-  handleMessage: (message: ContentScriptMessage, tab?: Tabs.Tab) => void;
-  handleStepMessage: (
-    step: ContentScriptMessage['data'],
-    tab: Tabs.Tab
-  ) => void;
+  handleMessage: (message: GenericMessage, tab?: Tabs.Tab) => void;
+  handleStepMessage: (step: GenericMessage['data'], tab: Tabs.Tab) => void;
   findSession: (tabId: number) => Session | undefined;
   removeSession: (tabId: number) => void;
   findConfigModel: (tabUrl?: string) => Config | undefined;

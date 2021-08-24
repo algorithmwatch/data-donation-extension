@@ -27,14 +27,17 @@ const createMessageService = (): MessageService => ({
     });
   },
 
-  addMessageListener(messageHandler): void {
+  addMessageListener(from, messageHandler): void {
     if (!this.connection) {
       throw new Error('Connection is null');
     }
 
     this.connection?.onMessage.addListener((message, port) => {
       console.debug('Received message', message, port);
-      messageHandler(message, port.sender?.tab, this);
+
+      if (message.from === from) {
+        messageHandler(message, port.sender?.tab, this);
+      }
     });
   },
 
