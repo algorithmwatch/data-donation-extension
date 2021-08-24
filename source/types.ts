@@ -85,7 +85,7 @@ export interface SessionManager {
   createSession: (config: ConfigModel, tab: Tabs.Tab) => Session;
 }
 
-export interface StepHandler {
-  name: string;
-  props: StepProps;
-}
+// export interface StepHandler {
+//   name: string;
+//   props: StepProps;
+// }
