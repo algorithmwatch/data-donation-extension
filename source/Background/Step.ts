@@ -1,6 +1,6 @@
-import {StepModel, Step} from '../types';
+import {StepModel, BackgroundStep} from '../types';
 
-const createStep = ({name, ...props}: StepModel): Step => ({
+const createStep = ({name, ...props}: StepModel): BackgroundStep => ({
   name,
   props,
   data: null,

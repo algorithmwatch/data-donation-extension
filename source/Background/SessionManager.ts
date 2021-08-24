@@ -1,5 +1,5 @@
 import {ConfigModel, Session, SessionManager, MessageService} from '../types';
-import createConfig from './Config';
+import createStepHandler from './StepHandler';
 
 const createSessionManager = (
   configModels: ConfigModel[],
@@ -38,10 +38,12 @@ const createSessionManager = (
     }
 
     if (session) {
-      // Send message to content script with next step info
-      const {nextStep, allStepsCompleted} = session.config.handleStep(step);
+      // get step result
+      const {nextStep, allStepsCompleted} =
+        session.stepHandler.handleStep(step);
 
       if (nextStep) {
+        // Send message to content script with next step info
         this.messageService.sendMessage({
           type: 'step',
           data: nextStep,
@@ -50,7 +52,7 @@ const createSessionManager = (
 
       // Do something when everything is complete
       if (allStepsCompleted) {
-        console.log(`All ${session.config.steps.length} steps completed`);
+        console.log(`All ${session.stepHandler.steps.length} steps completed`);
       }
     }
   },
@@ -70,7 +72,8 @@ const createSessionManager = (
   createSession(configModel, tab): Session {
     return {
       tab,
-      config: createConfig(configModel),
+      config: configModel,
+      stepHandler: createStepHandler(configModel),
     };
   },
 });

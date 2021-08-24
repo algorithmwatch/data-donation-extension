@@ -41,7 +41,8 @@ export interface StepProps {
   [key: string]: any;
 }
 
-export interface Step extends StepModel {
+export interface BackgroundStep {
+  name: StepName;
   props: StepProps;
   data: any;
   saveData: (data: any) => void;
@@ -58,17 +59,18 @@ export interface ConfigModel {
   steps: StepModel[];
 }
 
-export interface Config extends ConfigModel {
-  steps: Step[];
+export interface StepHandler {
+  steps: BackgroundStep[];
   currentStepIndex: number;
   handleStep: (step: ContentScriptMessage['data']) => HandleStepResult;
-  getCurrentStep: () => Step;
+  getCurrentStep: () => BackgroundStep;
   setNextStepIndex: () => void;
 }
 
 export interface Session {
   tab: Tabs.Tab;
-  config: Config;
+  config: ConfigModel;
+  stepHandler: StepHandler;
 }
 
 export interface SessionManager {
@@ -84,8 +86,3 @@ export interface SessionManager {
   findConfigModel: (tabUrl?: string) => ConfigModel | undefined;
   createSession: (config: ConfigModel, tab: Tabs.Tab) => Session;
 }
-
-// export interface StepHandler {
-//   name: string;
-//   props: StepProps;
-// }

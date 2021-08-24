@@ -1,9 +1,12 @@
-import {Config, ConfigModel, HandleStepResult, Step} from '../types';
+import {
+  StepHandler,
+  ConfigModel,
+  HandleStepResult,
+  BackgroundStep,
+} from '../types';
 import createStep from './Step';
 
-const createConfig = ({name, matches, steps}: ConfigModel): Config => ({
-  name,
-  matches,
+const createStepHandler = ({steps}: ConfigModel): StepHandler => ({
   steps: steps.map((s) => createStep(s)),
   currentStepIndex: 0,
 
@@ -15,10 +18,10 @@ const createConfig = ({name, matches, steps}: ConfigModel): Config => ({
       allStepsCompleted: this.steps.length - 1 === this.currentStepIndex,
     };
 
-    // Map step name with current step and return empty result if unsuccessful
+    // Map incoming step name with current step and return empty result if unsuccessful
     if (currentStep.name !== stepName) {
       console.debug(
-        `Step "${stepName}" not a current step in config "${this.name}" (current step is "${currentStep.name}")`
+        `Step "${stepName}" not a current step (current step is "${currentStep.name}")`
       );
       return result;
     }
@@ -41,7 +44,7 @@ const createConfig = ({name, matches, steps}: ConfigModel): Config => ({
     return result;
   },
 
-  getCurrentStep(): Step {
+  getCurrentStep(): BackgroundStep {
     return this.steps[this.currentStepIndex];
   },
 
@@ -52,4 +55,4 @@ const createConfig = ({name, matches, steps}: ConfigModel): Config => ({
   },
 });
 
-export default createConfig;
+export default createStepHandler;
