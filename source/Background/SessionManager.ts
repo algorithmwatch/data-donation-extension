@@ -1,27 +1,25 @@
-import {ConfigModel, Session, SessionManager, MessageService} from '../types';
+import {Config, Session, SessionManager, MessageService} from '../types';
 import createStepHandler from './StepHandler';
 
 const createSessionManager = (
-  configModels: ConfigModel[],
+  configs: Config[],
   messageService: MessageService
 ): SessionManager => ({
   messageService,
-  configModels,
+  configs,
   sessions: [],
 
   handleMessage(message, tab): void {
-    console.debug('Background script: received message', message, tab);
-
-    if (!tab || !tab.id || !tab.url) {
-      throw new Error('Cannot handle step without Tab, Tab id or Tab url');
-    }
-
-    if (message?.type === 'step') {
+    if (message?.type === 'step' && tab) {
       this.handleStepMessage(message.data, tab);
     }
   },
 
   handleStepMessage(step, tab): void {
+    if (!tab || !tab.id || !tab.url) {
+      throw new Error('Cannot handle step without Tab, Tab id or Tab url');
+    }
+
     let session = this.findSession(tab.id);
 
     // Get session by tab id or create session by
@@ -42,6 +40,7 @@ const createSessionManager = (
       const {nextStep, allStepsCompleted} =
         session.stepHandler.handleStep(step);
 
+      console.warn({nextStep, allStepsCompleted});
       if (nextStep) {
         // Send message to content script with next step info
         this.messageService.sendMessage({
@@ -61,19 +60,26 @@ const createSessionManager = (
     return this.sessions.find((s) => s.tab.id === tabId);
   },
 
-  findConfigModel(tabUrl): ConfigModel | undefined {
+  removeSession(tabId): void {
+    const index = this.sessions.findIndex((s) => s.tab.id === tabId);
+    if (index !== -1) {
+      this.sessions.splice(index, 1);
+    }
+  },
+
+  findConfigModel(tabUrl): Config | undefined {
     return tabUrl
-      ? this.configModels.find((c) =>
+      ? this.configs.find((c) =>
           c.matches.some((url) => tabUrl.startsWith(url))
         )
       : undefined;
   },
 
-  createSession(configModel, tab): Session {
+  createSession(config, tab): Session {
     return {
       tab,
-      config: configModel,
-      stepHandler: createStepHandler(configModel),
+      config,
+      stepHandler: createStepHandler(config),
     };
   },
 });

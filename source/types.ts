@@ -8,7 +8,8 @@ export interface MessageService {
   addMessageListener: (
     messageHandler: (
       message: ContentScriptMessage | BackgroundScriptMessage,
-      tab?: Tabs.Tab
+      tab: Tabs.Tab | undefined,
+      messageService: this
     ) => void
   ) => void;
   sendMessage: (
@@ -53,7 +54,7 @@ export interface HandleStepResult {
   allStepsCompleted: boolean;
 }
 
-export interface ConfigModel {
+export interface Config {
   name: string;
   matches: string[];
   steps: StepModel[];
@@ -69,20 +70,21 @@ export interface StepHandler {
 
 export interface Session {
   tab: Tabs.Tab;
-  config: ConfigModel;
+  config: Config;
   stepHandler: StepHandler;
 }
 
 export interface SessionManager {
   messageService: MessageService;
-  configModels: ConfigModel[];
+  configs: Config[];
   sessions: Session[];
   handleMessage: (message: ContentScriptMessage, tab?: Tabs.Tab) => void;
   handleStepMessage: (
     step: ContentScriptMessage['data'],
     tab: Tabs.Tab
   ) => void;
-  findSession: (tabId?: number) => Session | undefined;
-  findConfigModel: (tabUrl?: string) => ConfigModel | undefined;
-  createSession: (config: ConfigModel, tab: Tabs.Tab) => Session;
+  findSession: (tabId: number) => Session | undefined;
+  removeSession: (tabId: number) => void;
+  findConfigModel: (tabUrl?: string) => Config | undefined;
+  createSession: (config: Config, tab: Tabs.Tab) => Session;
 }

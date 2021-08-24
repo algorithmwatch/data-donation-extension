@@ -1,12 +1,7 @@
-import {
-  StepHandler,
-  ConfigModel,
-  HandleStepResult,
-  BackgroundStep,
-} from '../types';
+import {StepHandler, Config, HandleStepResult, BackgroundStep} from '../types';
 import createStep from './Step';
 
-const createStepHandler = ({steps}: ConfigModel): StepHandler => ({
+const createStepHandler = ({steps}: Config): StepHandler => ({
   steps: steps.map((s) => createStep(s)),
   currentStepIndex: 0,
 

@@ -31,8 +31,10 @@ const createMessageService = (): MessageService => ({
     if (!this.connection) {
       throw new Error('Connection is null');
     }
+
     this.connection?.onMessage.addListener((message, port) => {
-      messageHandler(message, port.sender?.tab);
+      console.debug('Received message', message, port);
+      messageHandler(message, port.sender?.tab, this);
     });
   },
 

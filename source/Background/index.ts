@@ -1,18 +1,28 @@
+import {browser} from 'webextension-polyfill-ts';
 import 'emoji-log';
 import testConfig from '../test-config.json';
 import createMessageService from '../MessageService';
 import createSessionManager from './SessionManager';
-import {ConfigModel, ContentScriptMessage} from '../types';
+import {Config, ContentScriptMessage} from '../types';
 
 const messageService = createMessageService();
 messageService.addConnectListener(() => {
   const sessionManager = createSessionManager(
-    [testConfig as ConfigModel],
+    [testConfig as Config],
     messageService
   );
   messageService.addMessageListener((message, port) =>
     sessionManager.handleMessage(message as ContentScriptMessage, port)
   );
+
+  // remove session on tab close
+  browser.tabs.onRemoved.addListener((tabId: number) => {
+    const hasSession = sessionManager.findSession(tabId);
+
+    if (hasSession) {
+      sessionManager.removeSession(tabId);
+    }
+  });
 });
 
 // const injectContentScript = async (): Promise<boolean> => {
