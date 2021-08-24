@@ -5,18 +5,18 @@ const createStepHandler = ({steps}: Config): StepHandler => ({
   steps: steps.map((s) => createStep(s)),
   currentStepIndex: 0,
 
-  handleStep({name: stepName, completed, data}): HandleStepResult {
-    console.warn('Handling step', {stepName, completed, data});
+  handleStep({name, completed, data}): HandleStepResult {
+    console.warn('Handling step', {name, completed, data});
     const currentStep = this.getCurrentStep();
     const result: HandleStepResult = {
       nextStep: null,
-      allStepsCompleted: this.steps.length - 1 === this.currentStepIndex,
+      allStepsComplete: this.steps.length - 1 === this.currentStepIndex,
     };
 
     // Map incoming step name with current step and return empty result if unsuccessful
-    if (currentStep.name !== stepName) {
+    if (currentStep.name !== name) {
       console.debug(
-        `Step "${stepName}" not a current step (current step is "${currentStep.name}")`
+        `Step "${name}" not a current step (current step is "${currentStep.name}")`
       );
       return result;
     }
@@ -27,7 +27,7 @@ const createStepHandler = ({steps}: Config): StepHandler => ({
     }
 
     // If step is completed, increase step index and add next step name to result.
-    if (completed === true && !result.allStepsCompleted) {
+    if (completed === true && !result.allStepsComplete) {
       this.setNextStepIndex();
       const nextStep = this.getCurrentStep();
       result.nextStep = {

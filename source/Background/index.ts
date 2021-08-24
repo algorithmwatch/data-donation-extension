@@ -11,6 +11,8 @@ messageService.addConnectListener(() => {
     [testConfig as Config],
     messageService
   );
+
+  // handle messages from content script
   messageService.addMessageListener(
     'content',
     sessionManager.handleMessage.bind(sessionManager)

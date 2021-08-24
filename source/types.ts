@@ -42,7 +42,7 @@ export interface BackgroundStep {
 
 export interface HandleStepResult {
   nextStep: {name: string; props: StepProps} | null;
-  allStepsCompleted: boolean;
+  allStepsComplete: boolean;
 }
 
 export interface Config {

@@ -37,8 +37,7 @@ const createSessionManager = (
 
     if (session) {
       // get step result
-      const {nextStep, allStepsCompleted} =
-        session.stepHandler.handleStep(step);
+      const {nextStep, allStepsComplete} = session.stepHandler.handleStep(step);
 
       if (nextStep) {
         // Send message to content script with next step info
@@ -50,8 +49,11 @@ const createSessionManager = (
       }
 
       // Do something when everything is complete
-      if (allStepsCompleted) {
-        console.log(`All ${session.stepHandler.steps.length} steps completed`);
+      if (allStepsComplete) {
+        console.log(
+          `All ${session.stepHandler.steps.length} steps completed`,
+          session
+        );
       }
     }
   },

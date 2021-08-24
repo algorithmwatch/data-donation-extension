@@ -20,7 +20,7 @@ const handleMessage = async (
     const step = new steps[stepClassName](name, props);
     const result = await step.run();
 
-    // notify background script that step is compled
+    // notify background script that step has completed
     service.sendMessage({
       from: 'content',
       type: 'step',
