@@ -28,6 +28,7 @@
   "dependencies": {
     "@babel/runtime": "^7.14.0",
     "advanced-css-reset": "^1.2.2",
+    "classnames": "^2.3.1",
     "emoji-log": "^1.0.2",
     "html-react-parser": "^1.2.8",
     "lodash": "^4.17.21",

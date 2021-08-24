@@ -1,8 +1,6 @@
 import {render} from 'react-dom';
 import Step from '../Step';
-import InstructionContainer from '../InstructionContainer';
-
-// TODO: https://itnext.io/create-chrome-extension-with-reactjs-using-inject-page-strategy-137650de1f39
+import InstructionContainer from '../components/InstructionContainer';
 
 class ShowInstructionContainerStep extends Step {
   async run(): Promise<void> {

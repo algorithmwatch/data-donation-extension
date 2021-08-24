@@ -14,7 +14,7 @@ const handleMessage = ({type, data}: BackgroundScriptMessage): void => {
     // run step
     const stepClassName = `${pascalCase(data.name)}Step`;
     const step = new steps[stepClassName](data.name, data.props);
-    console.warn('step', step);
+    step.run();
   }
 };
 

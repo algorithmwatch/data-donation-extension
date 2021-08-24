@@ -1,6 +1,7 @@
 import * as React from 'react';
 import parse from 'html-react-parser';
-import {StepProps} from '../types';
+import {StepProps} from '../../types';
+import Button from './Button';
 
 function InstructionContainer({html}: StepProps): React.ReactElement {
   return (
@@ -9,6 +10,9 @@ function InstructionContainer({html}: StepProps): React.ReactElement {
       style={{zIndex: 999999}}
     >
       <div className="aw-instruction-container-content">{parse(html)}</div>
+      <div>
+        <Button>Verstanden</Button>
+      </div>
     </div>
   );
 }

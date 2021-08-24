@@ -8,8 +8,6 @@ class Step {
   constructor(name: string, props: StepProps = {}) {
     this.name = name;
     this.props = props;
-
-    this.run();
   }
 
   async run(): Promise<void> {
