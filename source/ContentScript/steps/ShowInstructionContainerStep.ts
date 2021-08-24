@@ -4,10 +4,7 @@ import Container from './Container';
 
 class ShowInstructionContainerStep extends Step {
   async run(): Promise<void> {
-    const root = document.querySelector(this.props.target);
-    root.attachShadow({mode: 'open'});
-
-    render(Container(this.props), root.shadowRoot);
+    render(Container(this.props), document.querySelector(this.props.target));
   }
 }
 
