@@ -3,7 +3,7 @@ import Step from '../Step';
 import InstructionContainer from '../components/InstructionContainer';
 
 class ShowInstructionContainerStep extends Step {
-  async run(): Promise<void> {
+  async run(): Promise<ReturnType<Step['finish']>> {
     const rootElementId = 'aw-extension-instruction-container';
 
     // check if react root exists already and create if not
@@ -16,6 +16,8 @@ class ShowInstructionContainerStep extends Step {
     }
 
     render(InstructionContainer(this.props), rootElement);
+
+    return this.finish();
   }
 }
 

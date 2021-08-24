@@ -7,14 +7,18 @@ import './styles.css';
 const pascalCase = (str: string): string =>
   camelCase(str).replace(/^(.)/, toUpper);
 
-const handleMessage = ({type, data}: BackgroundScriptMessage): void => {
-  console.warn('content script: received message', type, data);
+const handleMessage = async ({
+  type,
+  data: {name, props},
+}: BackgroundScriptMessage): Promise<void> => {
+  console.debug('content script: received message', name, props);
 
   if (type === 'step') {
     // run step
-    const stepClassName = `${pascalCase(data.name)}Step`;
-    const step = new steps[stepClassName](data.name, data.props);
-    step.run();
+    const stepClassName = `${pascalCase(name)}Step`;
+    const step = new steps[stepClassName](name, props);
+    const result = await step.run();
+    console.warn('step result', result);
   }
 };
 
