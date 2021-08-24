@@ -30,7 +30,7 @@ messageService.addMessageListener(handleMessage);
 messageService.sendMessage({
   type: 'step',
   data: {
-    name: 'inject-content-script',
+    name: 'wait-for-page-load',
     completed: true,
   },
 });

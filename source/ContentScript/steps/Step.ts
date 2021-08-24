@@ -1,4 +1,4 @@
-import {StepProps} from '../types';
+import {StepProps} from '../../types';
 
 class Step {
   name: string;

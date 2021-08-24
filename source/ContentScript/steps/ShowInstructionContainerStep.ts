@@ -1,5 +1,5 @@
 import {render} from 'react-dom';
-import Step from '../Step';
+import Step from './Step';
 import InstructionContainer from '../components/InstructionContainer';
 
 class ShowInstructionContainerStep extends Step {

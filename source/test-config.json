@@ -3,7 +3,7 @@
   "matches": ["https://www.spiegel.de"],
   "steps": [
     {
-      "name": "inject-content-script"
+      "name": "wait-for-page-load"
     },
     {
       "name": "show-instruction-container",
