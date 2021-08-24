@@ -2,6 +2,7 @@ import {camelCase, toUpper} from 'lodash';
 import createMessageService from '../MessageService';
 import {BackgroundScriptMessage} from '../types';
 import steps from './steps';
+import './styles.css';
 
 const pascalCase = (str: string): string =>
   camelCase(str).replace(/^(.)/, toUpper);
@@ -13,6 +14,7 @@ const handleMessage = ({type, data}: BackgroundScriptMessage): void => {
     // run step
     const stepClassName = `${pascalCase(data.name)}Step`;
     const step = new steps[stepClassName](data.name, data.props);
+    console.warn('step', step);
   }
 };
 

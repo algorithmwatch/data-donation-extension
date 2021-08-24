@@ -1,0 +1,16 @@
+/* @tailwind base; <- no preflight */
+@tailwind components;
+@tailwind utilities;
+
+.aw-instruction-container-content {
+  @apply aw-font-sans aw-text-lg;
+  h1 {
+    @apply aw-text-2xl aw-mb-2;
+  }
+  h2 {
+    @apply aw-text-xl aw-mb-2;
+  }
+  p {
+    @apply aw-mb-4;
+  }
+}
