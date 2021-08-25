@@ -4,14 +4,15 @@ import {MessageService} from './types';
 const createMessageService = (): MessageService => ({
   connectionName: 'aw-datadonation',
   connection: null,
+  callbacks: {},
 
-  createConnection(): void {
+  connect(): void {
     this.connection = browser.runtime.connect(undefined, {
       name: this.connectionName,
     });
   },
 
-  addConnectListener(cb): void {
+  onConnect(cb): void {
     browser.runtime.onConnect.addListener((port) => {
       if (port.name !== this.connectionName) {
         return;
@@ -27,18 +28,23 @@ const createMessageService = (): MessageService => ({
     });
   },
 
-  addMessageListener(from, messageHandler): void {
+  addListener(): void {
     if (!this.connection) {
       throw new Error('Connection is null');
     }
 
     this.connection?.onMessage.addListener((message, port) => {
       console.debug('Received message', message, port);
+      const callback = this.callbacks[message.from];
 
-      if (message.from === from) {
-        messageHandler(message, port.sender?.tab, this);
+      if (callback) {
+        callback({message, tab: port.sender?.tab});
       }
     });
+  },
+
+  onMessage(from, callback): void {
+    this.callbacks[from] = callback;
   },
 
   sendMessage(message): void {

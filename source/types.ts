@@ -3,15 +3,17 @@ import {Tabs, Runtime} from 'webextension-polyfill-ts';
 export interface MessageService {
   connectionName: string;
   connection: null | Runtime.Port;
-  createConnection: () => void;
-  addConnectListener: (cb: () => void) => void;
-  addMessageListener: (
+  callbacks: {[key: string]: any};
+  connect: () => void;
+  onConnect: (cb: () => void) => void;
+  addListener: () => void;
+  onMessage: (
     from: GenericMessage['from'],
-    messageHandler: (
-      message: GenericMessage,
-      tab: Tabs.Tab | undefined,
-      messageService: this
-    ) => void
+    callback: (params: {
+      message: GenericMessage;
+      tab: Tabs.Tab | undefined;
+      // messageService: this
+    }) => void
   ) => void;
   sendMessage: (message: GenericMessage) => void;
 }

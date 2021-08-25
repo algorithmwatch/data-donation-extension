@@ -6,17 +6,17 @@ import createSessionManager from './SessionManager';
 import {Config} from '../types';
 
 const messageService = createMessageService();
-messageService.addConnectListener(() => {
+messageService.onConnect(() => {
   const sessionManager = createSessionManager(
     [testConfig as Config],
     messageService
   );
 
   // handle messages from content script
-  messageService.addMessageListener(
-    'content',
-    sessionManager.handleMessage.bind(sessionManager)
-  );
+  messageService.addListener();
+  messageService.onMessage('content', (params) => {
+    sessionManager.handleMessage(params);
+  });
 
   // remove session on tab close
   browser.tabs.onRemoved.addListener((tabId: number) => {

@@ -34,8 +34,9 @@ const handleMessage = async (
 };
 
 const messageService = createMessageService();
-messageService.createConnection();
-messageService.addMessageListener('background', handleMessage);
+messageService.connect();
+messageService.addListener();
+messageService.onMessage('background', handleMessage);
 
 // send message on injection (is fired when Document.readyState is "document_idle")
 messageService.sendMessage({
