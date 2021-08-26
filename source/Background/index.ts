@@ -47,9 +47,7 @@ messageService.onConnect(() => {
 
   // remove session on tab close
   browser.tabs.onRemoved.addListener((tabId: number) => {
-    const hasSession = sessionManager.getSession(tabId);
-
-    if (hasSession) {
+    if (sessionManager.getSession(tabId)) {
       sessionManager.removeSession(tabId);
     }
   });
