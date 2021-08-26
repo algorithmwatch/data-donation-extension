@@ -3,19 +3,21 @@ import {Tabs, Runtime} from 'webextension-polyfill-ts';
 export interface MessageService {
   connectionName: string;
   connection: null | Runtime.Port;
-  callbacks: {[key: string]: any};
+  callbacks: {[key: string]: (params: MessageServiceCallbackParams) => void};
   connect: () => void;
   onConnect: (cb: () => void) => void;
   addListener: () => void;
   onMessage: (
     from: GenericMessage['from'],
-    callback: (params: {
-      message: GenericMessage;
-      tab: Tabs.Tab | undefined;
-      // messageService: this
-    }) => void
+    callback: (params: MessageServiceCallbackParams) => void
   ) => void;
   sendMessage: (message: GenericMessage) => void;
+}
+
+export interface MessageServiceCallbackParams {
+  message: GenericMessage;
+  tab: Tabs.Tab | undefined;
+  // messageService: this
 }
 
 type StepName = string;
@@ -68,13 +70,11 @@ export interface Session {
 }
 
 export interface SessionManager {
-  messageService: MessageService;
   configs: Config[];
   sessions: Session[];
-  handleMessage: (message: GenericMessage, tab?: Tabs.Tab) => void;
-  handleStepMessage: (step: GenericMessage['data'], tab: Tabs.Tab) => void;
-  findSession: (tabId: number) => Session | undefined;
+  getSession: (tabId: number) => Session | undefined;
+  getOrCreateSession: (tab: Tabs.Tab) => Session | undefined;
   removeSession: (tabId: number) => void;
-  findConfigModel: (tabUrl?: string) => Config | undefined;
+  findConfig: (tabUrl?: string) => Config | undefined;
   createSession: (config: Config, tab: Tabs.Tab) => Session;
 }

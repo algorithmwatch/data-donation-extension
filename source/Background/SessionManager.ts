@@ -1,31 +1,27 @@
-import {Config, Session, SessionManager, MessageService} from '../types';
+import {Config, Session, SessionManager} from '../types';
 import createStepHandler from './StepHandler';
 
-const createSessionManager = (
-  configs: Config[],
-  messageService: MessageService
-): SessionManager => ({
-  messageService,
+const createSessionManager = (configs: Config[]): SessionManager => ({
   configs,
   sessions: [],
 
-  handleMessage(message, tab): void {
-    if (message?.type === 'step' && tab) {
-      this.handleStepMessage(message.data, tab);
-    }
+  getSession(tabId): Session | undefined {
+    return this.sessions.find((s) => s.tab.id === tabId);
   },
 
-  handleStepMessage(step, tab): void {
-    if (!tab || !tab.id || !tab.url) {
-      throw new Error('Cannot handle step without Tab, Tab id or Tab url');
-    }
-
-    let session = this.findSession(tab.id);
-
+  getOrCreateSession(tab): Session | undefined {
     // Get session by tab id or create session by
     // config model that matches tab url.
+    if (!tab || !tab.id || !tab.url) {
+      throw new Error(
+        'Cannot find or create session without Tab, Tab id or Tab url'
+      );
+    }
+
+    let session = this.getSession(tab.id);
+
     if (!session) {
-      const config = this.findConfigModel(tab.url);
+      const config = this.findConfig(tab.url);
 
       if (config) {
         session = this.createSession(config, tab);
@@ -35,31 +31,7 @@ const createSessionManager = (
       }
     }
 
-    if (session) {
-      // get step result
-      const {nextStep, allStepsComplete} = session.stepHandler.handleStep(step);
-
-      if (nextStep) {
-        // Send message to content script with next step info
-        this.messageService.sendMessage({
-          from: 'background',
-          type: 'step',
-          data: nextStep,
-        });
-      }
-
-      // Do something when everything is complete
-      if (allStepsComplete) {
-        console.log(
-          `All ${session.stepHandler.steps.length} steps completed`,
-          session
-        );
-      }
-    }
-  },
-
-  findSession(tabId): Session | undefined {
-    return this.sessions.find((s) => s.tab.id === tabId);
+    return session;
   },
 
   removeSession(tabId): void {
@@ -69,7 +41,7 @@ const createSessionManager = (
     }
   },
 
-  findConfigModel(tabUrl): Config | undefined {
+  findConfig(tabUrl): Config | undefined {
     return tabUrl
       ? this.configs.find((c) =>
           c.matches.some((url) => tabUrl.startsWith(url))

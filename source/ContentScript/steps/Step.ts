@@ -20,10 +20,11 @@ class Step {
 
   beforeFinish(): void {}
 
-  finish(): {data: any} {
+  finish(): {name: string; data: any} {
     this.beforeFinish();
 
     return {
+      name: this.name,
       data: this.data,
     };
   }
