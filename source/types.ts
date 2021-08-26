@@ -1,3 +1,4 @@
+import {ReactNode} from 'react';
 import {Tabs, Runtime} from 'webextension-polyfill-ts';
 
 export interface MessageService {
@@ -24,17 +25,36 @@ type StepName = string;
 
 export interface GenericMessage {
   from: 'background' | 'content';
-  type: 'step';
+  type: 'step-info';
   data?: any;
 }
 
-export interface StepModel {
-  name: StepName;
-  someprop?: string;
+export interface InstructionContainerButton {
+  type?: 'button' | 'submit';
+  size?: 'small' | 'medium' | 'large';
+  theme?: 'primary' | 'secondary';
+  // startIcon?: IconDefinition;
+  // endIcon?: IconDefinition;
+  classNames?: string;
+  disabled?: boolean;
+  onClick?: () => void;
+  children?: ReactNode;
 }
 
 export interface StepProps {
   [key: string]: any;
+}
+
+export interface StepButton {
+  label: string;
+  action: string;
+  theme: InstructionContainerButton['theme'];
+}
+
+export interface InstructionContainerProps extends StepProps {
+  html: string;
+  buttons?: StepButton[];
+  finishCallback?: (slug: string) => void;
 }
 
 export interface BackgroundStep {
@@ -49,10 +69,14 @@ export interface HandleStepResult {
   allStepsComplete: boolean;
 }
 
+export interface ConfigStep extends StepProps {
+  name: StepName;
+}
+
 export interface Config {
   name: string;
   matches: string[];
-  steps: StepModel[];
+  steps: ConfigStep[];
 }
 
 export interface StepHandler {

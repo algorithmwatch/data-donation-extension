@@ -12,7 +12,7 @@ messageService.onConnect(() => {
   // handle messages from content script
   messageService.addListener();
   messageService.onMessage('content', ({message, tab}) => {
-    if (message.type !== 'step' || !tab) {
+    if (message.type !== 'step-info' || !tab) {
       return;
     }
 
@@ -31,7 +31,7 @@ messageService.onConnect(() => {
     if (nextStep) {
       messageService.sendMessage({
         from: 'background',
-        type: 'step',
+        type: 'step-info',
         data: nextStep,
       });
     }

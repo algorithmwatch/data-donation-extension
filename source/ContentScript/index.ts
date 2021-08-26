@@ -24,32 +24,34 @@ const messageService = createMessageService();
 messageService.connect();
 messageService.addListener();
 messageService.onMessage('background', async ({message}) => {
-  if (message.type !== 'step') {
+  if (message.type !== 'step-info') {
     return;
   }
 
   // handle step
-  const {name, data} = await handleStep(message.data);
+  const {name, data, complete} = await handleStep(message.data);
 
-  // notify background script that step has completed
-  messageService.sendMessage({
-    from: 'content',
-    type: 'step',
-    data: {
-      name,
-      data,
-      completed: true,
-    },
-  });
+  // notify background script that step is complete
+  if (complete) {
+    messageService.sendMessage({
+      from: 'content',
+      type: 'step-info',
+      data: {
+        name,
+        data,
+        complete,
+      },
+    });
+  }
 });
 
 // send message on injection (is fired when Document.readyState is "document_idle")
 messageService.sendMessage({
   from: 'content',
-  type: 'step',
+  type: 'step-info',
   data: {
     name: 'wait-for-page-load',
-    completed: true,
+    complete: true,
   },
 });
 

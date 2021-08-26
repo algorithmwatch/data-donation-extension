@@ -5,12 +5,13 @@ class Step {
 
   props: StepProps;
 
-  data: {[key: string]: any} | null;
+  complete: null | boolean = null;
+
+  data: {[key: string]: any} | null = null;
 
   constructor(name: string, props: StepProps = {}) {
     this.name = name;
     this.props = props;
-    this.data = null;
   }
 
   async run(): Promise<ReturnType<Step['finish']>> {
@@ -18,14 +19,18 @@ class Step {
     return this.finish();
   }
 
-  beforeFinish(): void {}
+  async isComplete(): Promise<void> {
+    // wait until complete variable is set
+    while (this.complete === null) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+  }
 
-  finish(): {name: string; data: any} {
-    this.beforeFinish();
-
+  finish(): {name: string; data: any; complete: boolean | null} {
     return {
       name: this.name,
       data: this.data,
+      complete: this.complete,
     };
   }
 }

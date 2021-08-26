@@ -7,7 +7,19 @@
     },
     {
       "name": "show-instruction-container",
-      "html": "<h1>Das ist eine Erklärung</h1><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p><h2>Das ist eine zweite Überschrift</h2><p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.</p>"
+      "html": "<h1>Möchtest du Daten spenden?</h1><p>Du kannst Daten von [Seitenname] an Unding spenden. Du hilfst damit diesen und jenen Menschen.</p><p>Klicke auf \"Daten spenden\", um loszulegen.</p>",
+      "buttons": [
+        {
+          "label": "Daten spenden",
+          "theme": "primary",
+          "action": "submit"
+        },
+        {
+          "label": "Ausblenden",
+          "theme": "secondary",
+          "action": "cancel"
+        }
+      ]
     },
     {
       "name": "show-instruction-container",

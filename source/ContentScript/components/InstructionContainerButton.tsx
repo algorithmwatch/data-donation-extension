@@ -1,29 +1,18 @@
 import cn from 'classnames';
-import React, {MouseEvent, ReactNode} from 'react';
-
-export interface ButtonProps {
-  type?: 'button' | 'submit';
-  size?: 'small' | 'medium' | 'large';
-  theme?: 'outline' | 'link' | 'yellow';
-  // startIcon?: IconDefinition;
-  // endIcon?: IconDefinition;
-  classNames?: string;
-  disabled?: boolean;
-  onClick?: (event: MouseEvent) => void;
-  children?: ReactNode;
-}
+import React from 'react';
+import {InstructionContainerButton} from '../../types';
 
 export default function Button({
   type = 'button',
   size = 'medium',
-  theme = 'yellow',
+  theme = 'primary',
   // startIcon,
   // endIcon,
   classNames = '',
   disabled = false,
   onClick,
   children,
-}: ButtonProps): React.ReactElement {
+}: InstructionContainerButton): React.ReactElement {
   // set button content
   const buttonContent = [];
 
@@ -58,19 +47,14 @@ export default function Button({
   };
 
   const buttonTheme = {
-    outline: cn({
+    secondary: cn({
       // 'border-2 text-yellow-1500': true,
       // 'border-yellow-700 hover:text-yellow-1200 focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50':
       //   !disabled,
       // 'border-yellow-1200 text-yellow-1200 opacity-50 border-opacity-50':
       //   disabled,
     }),
-    link: cn(),
-    // 'text-yellow-1500', {
-    // 'hover:underline': !disabled,
-    // 'opacity-20': disabled,
-    // }
-    yellow: cn('aw-border-2 aw-text-white', {
+    primary: cn('aw-border-2 aw-text-white', {
       'aw-border-yellow-400 aw-bg-yellow-500 aw-bg-opacity-10 hover:aw-bg-yellow-600 focus:aw-ring-4 focus:aw-ring-yellow-300 focus:aw-ring-opacity-50':
         !disabled,
     }),

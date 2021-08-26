@@ -5,8 +5,8 @@ const createStepHandler = ({steps}: Config): StepHandler => ({
   steps: steps.map((s) => createStep(s)),
   currentStepIndex: 0,
 
-  handleStep({name, completed, data}): HandleStepResult {
-    console.warn('Handling step', {name, completed, data});
+  handleStep({name, complete, data}): HandleStepResult {
+    console.warn('Handling step', {name, complete, data});
     const currentStep = this.getCurrentStep();
     const result: HandleStepResult = {
       nextStep: null,
@@ -26,8 +26,8 @@ const createStepHandler = ({steps}: Config): StepHandler => ({
       currentStep.saveData(data);
     }
 
-    // If step is completed, increase step index and add next step name to result.
-    if (completed === true && !result.allStepsComplete) {
+    // If step is complete, increase step index and add next step name to result.
+    if (complete === true && !result.allStepsComplete) {
       this.setNextStepIndex();
       const nextStep = this.getCurrentStep();
       result.nextStep = {
