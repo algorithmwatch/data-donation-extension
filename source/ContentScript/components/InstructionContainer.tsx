@@ -6,7 +6,7 @@ import Button from './InstructionContainerButton';
 function InstructionContainer({
   html,
   buttons,
-  finishCallback,
+  onButtonClick,
 }: InstructionContainerProps): React.ReactElement {
   return (
     <div
@@ -21,7 +21,7 @@ function InstructionContainer({
               key={button.label}
               theme={button.theme}
               onClick={(): void =>
-                finishCallback && finishCallback(button.action)
+                onButtonClick && onButtonClick(button.action)
               }
             >
               {button.label}

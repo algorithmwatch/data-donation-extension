@@ -53,8 +53,9 @@ export interface StepButton {
 
 export interface InstructionContainerProps extends StepProps {
   html: string;
+  complete?: boolean;
   buttons?: StepButton[];
-  finishCallback?: (slug: string) => void;
+  onButtonClick?: (action?: string) => void;
 }
 
 export interface BackgroundStep {

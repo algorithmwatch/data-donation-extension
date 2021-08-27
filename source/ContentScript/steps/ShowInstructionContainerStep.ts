@@ -17,7 +17,7 @@ class ShowInstructionContainerStep extends Step {
     }
 
     // add callback to mark current step as complete/incomplete
-    this.props.finishCallback = (action: string): void => {
+    this.props.onButtonClick = (action?: string): void => {
       if (action === 'submit') {
         this.complete = true;
       } else if (action === 'cancel') {
@@ -34,6 +34,13 @@ class ShowInstructionContainerStep extends Step {
       InstructionContainer(this.props as InstructionContainerProps),
       rootElement
     );
+
+    // step can be marked "complete" by config
+    // in case you want to keep the container
+    // visible and go to the next step
+    if (this.props.complete) {
+      this.complete = true;
+    }
 
     // wait for complete variable to be set
     await this.isComplete();
