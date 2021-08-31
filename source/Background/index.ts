@@ -2,12 +2,14 @@ import {browser} from 'webextension-polyfill-ts';
 import testConfig from '../test-config.json';
 import createMessageService from '../MessageService';
 import createSessionManager from './SessionManager';
-import {Config} from '../types';
+import {Config, SessionManager} from '../types';
 
 const messageService = createMessageService();
+let sessionManager: SessionManager;
 messageService.onConnect(() => {
-  // create session manager handling all tab sessions
-  const sessionManager = createSessionManager([testConfig as Config]);
+  // create or get session manager handling all tab sessions
+  sessionManager =
+    sessionManager || createSessionManager([testConfig as Config]);
 
   // handle messages from content script
   messageService.addListener();
@@ -48,6 +50,7 @@ messageService.onConnect(() => {
   // remove session on tab close
   browser.tabs.onRemoved.addListener((tabId: number) => {
     if (sessionManager.getSession(tabId)) {
+      console.debug('Remove session for Tab', tabId);
       sessionManager.removeSession(tabId);
     }
   });

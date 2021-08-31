@@ -25,6 +25,7 @@ const createSessionManager = (configs: Config[]): SessionManager => ({
 
       if (config) {
         session = this.createSession(config, tab);
+        console.debug('Creating new session for tab', tab.id);
         this.sessions.push(session);
       } else {
         console.debug(`No config model found matching url "${tab.url}"`);

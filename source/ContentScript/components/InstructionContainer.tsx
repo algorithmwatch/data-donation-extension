@@ -10,7 +10,7 @@ function InstructionContainer({
 }: InstructionContainerProps): React.ReactElement {
   return (
     <div
-      className="aw-bg-blue-600 aw-fixed aw-top-6 aw-right-6 aw-max-w-sm aw-p-4"
+      className="aw-bg-blue-600 aw-rounded aw-fixed aw-top-6 aw-right-6 aw-max-w-sm aw-p-4"
       style={{zIndex: 999999}}
     >
       <div className="aw-instruction-container-content">{parse(html)}</div>
@@ -20,6 +20,7 @@ function InstructionContainer({
             <Button
               key={button.label}
               theme={button.theme}
+              classNames="aw-mr-4"
               onClick={(): void =>
                 onButtonClick && onButtonClick(button.action)
               }

@@ -14,10 +14,13 @@ const handleStep = async (
   // run step
   const {name, props} = data;
   const stepClassName = `${pascalCase(name)}Step`;
-  const step = new steps[stepClassName](name, props);
-  const result = await step.run();
-
-  return result;
+  try {
+    const step = new steps[stepClassName](name, props);
+    const result = await step.run();
+    return result;
+  } catch (error) {
+    throw new Error(`Error executing step "${stepClassName}": ${error}`);
+  }
 };
 
 const messageService = createMessageService();
@@ -28,8 +31,13 @@ messageService.onMessage('background', async ({message}) => {
     return;
   }
 
+  if (message.data.name === 'wait-for-page-load') {
+    // not handled by an actual step, but fired on every page load instead
+    return;
+  }
+
   // handle step
-  const {name, data, complete} = await handleStep(message.data);
+  const {name, data, complete, callback} = await handleStep(message.data);
 
   // notify background script that step is complete
   if (complete) {
@@ -42,6 +50,10 @@ messageService.onMessage('background', async ({message}) => {
         complete,
       },
     });
+  }
+
+  if (typeof callback === 'function') {
+    callback();
   }
 });
 

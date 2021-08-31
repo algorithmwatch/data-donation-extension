@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 .aw-instruction-container-content {
-  @apply aw-font-sans aw-text-lg;
+  @apply aw-font-sans aw-text-lg aw-text-white;
   h1 {
-    @apply aw-text-2xl aw-mb-2;
+    @apply aw-text-2xl aw-mb-4 aw-mt-0;
   }
   h2 {
-    @apply aw-text-xl aw-mb-2;
+    @apply aw-text-xl aw-mb-4 aw-mt-0;
   }
   p {
-    @apply aw-mb-4;
+    @apply aw-mb-4 aw-mt-0;
   }
 }

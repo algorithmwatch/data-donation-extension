@@ -47,13 +47,7 @@ export default function Button({
   };
 
   const buttonTheme = {
-    secondary: cn({
-      // 'border-2 text-yellow-1500': true,
-      // 'border-yellow-700 hover:text-yellow-1200 focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50':
-      //   !disabled,
-      // 'border-yellow-1200 text-yellow-1200 opacity-50 border-opacity-50':
-      //   disabled,
-    }),
+    secondary: cn('aw-text-white aw-bg-transparent aw-border-none'),
     primary: cn('aw-border-2 aw-text-white', {
       'aw-border-yellow-400 aw-bg-yellow-500 aw-bg-opacity-10 hover:aw-bg-yellow-600 focus:aw-ring-4 focus:aw-ring-yellow-300 focus:aw-ring-opacity-50':
         !disabled,
@@ -64,7 +58,7 @@ export default function Button({
     <button
       // eslint-disable-next-line react/button-has-type
       type={type}
-      className={`aw-font-sans aw-inline-flex aw-flex-nowrap aw-items-center aw-justify-center aw-font-medium focus:aw-outline-none aw-leading-none aw-transition aw-duration-150 aw-ease-in-out ${buttonSize[size]} ${buttonTheme[theme]} ${classNames}`}
+      className={`aw-font-sans aw-cursor-pointer aw-inline-flex aw-flex-nowrap aw-items-center aw-justify-center aw-font-medium focus:aw-outline-none aw-leading-none aw-transition aw-duration-150 aw-ease-in-out ${buttonSize[size]} ${buttonTheme[theme]} ${classNames}`}
       disabled={disabled}
       onClick={onClick}
     >

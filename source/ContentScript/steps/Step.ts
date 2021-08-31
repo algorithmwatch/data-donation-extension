@@ -26,11 +26,17 @@ class Step {
     }
   }
 
-  finish(): {name: string; data: any; complete: boolean | null} {
+  finish(callback?: () => void): {
+    name: string;
+    data: any;
+    complete: boolean | null;
+    callback?: () => void;
+  } {
     return {
       name: this.name,
       data: this.data,
       complete: this.complete,
+      callback,
     };
   }
 }

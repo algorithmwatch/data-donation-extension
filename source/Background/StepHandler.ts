@@ -18,6 +18,7 @@ const createStepHandler = ({steps}: Config): StepHandler => ({
       console.debug(
         `Step "${name}" not a current step (current step is "${currentStep.name}")`
       );
+      console.debug(this);
       return result;
     }
 
