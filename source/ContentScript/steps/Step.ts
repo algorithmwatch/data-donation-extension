@@ -26,6 +26,10 @@ class Step {
     }
   }
 
+  saveData(data: this['data']): void {
+    this.data = data;
+  }
+
   finish(callback?: () => void): {
     name: string;
     data: any;

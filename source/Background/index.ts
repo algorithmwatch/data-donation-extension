@@ -1,60 +1,79 @@
 import {browser} from 'webextension-polyfill-ts';
-import testConfig from '../test-config.json';
 import createMessageService from '../MessageService';
 import createSessionManager from './SessionManager';
-import {Config, SessionManager} from '../types';
+import createBackendService from '../BackendService';
+import {SessionManager} from '../types';
 
-const messageService = createMessageService();
-let sessionManager: SessionManager;
-messageService.onConnect(() => {
-  // create or get session manager handling all tab sessions
-  sessionManager =
-    sessionManager || createSessionManager([testConfig as Config]);
+const init = async (): Promise<void> => {
+  // load remote config files
+  const backendService = createBackendService();
+  await backendService.loadRemoteConfigs();
 
-  // handle messages from content script
-  messageService.addListener();
-  messageService.onMessage('content', ({message, tab}) => {
-    if (message.type !== 'step-info' || !tab) {
-      return;
-    }
+  // create message service
+  const messageService = createMessageService();
+  let sessionManager: SessionManager;
 
-    // get session
-    const session = sessionManager.getOrCreateSession(tab);
-    if (!session) {
-      return;
-    }
+  // listen for messages
+  messageService.onConnect(() => {
+    // create or get session manager handling all tab sessions
+    sessionManager =
+      sessionManager || createSessionManager(backendService.configs);
 
-    // handle step
-    const {nextStep, allStepsComplete} = session.stepHandler.handleStep(
-      message.data
-    );
+    // handle messages from content script
+    messageService.addListener();
+    messageService.onMessage('content', ({message, tab}) => {
+      if (message.type !== 'step-info' || !tab) {
+        return;
+      }
 
-    // Send message to content script with next step info
-    if (nextStep) {
-      messageService.sendMessage({
-        from: 'background',
-        type: 'step-info',
-        data: nextStep,
-      });
-    }
+      // get session
+      const session = sessionManager.getOrCreateSession(tab);
+      if (!session) {
+        return;
+      }
 
-    // Do something when everything is complete
-    if (allStepsComplete) {
-      console.log(
-        `All ${session.stepHandler.steps.length} steps completed`,
-        session
+      // handle step
+      const {nextStep, allStepsComplete} = session.stepHandler.handleStep(
+        message.data
       );
-    }
-  });
 
-  // remove session on tab close
-  browser.tabs.onRemoved.addListener((tabId: number) => {
-    if (sessionManager.getSession(tabId)) {
-      console.debug('Remove session for Tab', tabId);
-      sessionManager.removeSession(tabId);
-    }
+      // send message to content script with next step info
+      if (nextStep) {
+        messageService.sendMessage({
+          from: 'background',
+          type: 'step-info',
+          data: nextStep,
+        });
+      }
+
+      // TODO: send data to backend API
+      if (allStepsComplete) {
+        console.log(
+          `All ${session.stepHandler.steps.length} steps completed`,
+          session
+        );
+
+        const result = {
+          name: session.config.name,
+          stepsData: session.stepHandler.exportData(),
+        };
+        console.log('Data to upload:', result);
+
+        backendService.uploadData(result);
+      }
+    });
+
+    // remove session on tab close
+    browser.tabs.onRemoved.addListener((tabId: number) => {
+      if (sessionManager.getSession(tabId)) {
+        console.debug('Remove session for Tab', tabId);
+        sessionManager.removeSession(tabId);
+      }
+    });
   });
-});
+};
+
+init();
 
 // const injectContentScript = async (): Promise<boolean> => {
 //   const executing = await browser.tabs.executeScript({

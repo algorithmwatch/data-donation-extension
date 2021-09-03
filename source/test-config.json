@@ -1,18 +1,19 @@
 {
   "name": "Testconfig",
-  "matches": ["https://check24.de", "https://www.check24.de", "https://hausratversicherungen.check24.de"],
+  "start_url": "https://hausratversicherungen.check24.de",
+  "matches": ["https://hausratversicherungen.check24.de"],
   "steps": [
     {
       "name": "wait-for-page-load"
     },
     {
       "name": "show-instruction-container",
-      "html": "<h1>Das ist eine Überschrift</h1><p>Bitte tue dies und das und so weiter.</p>",
+      "html": "<h1>Hallo Peter</h1><p>Bitte fülle das Formular aus und klicke anschließend auf <strong>\"Ergebnis direkt anzeigen\"</strong>.</p>",
       "complete": true,
       "buttons": [
         {
           "label": "Ausblenden",
-          "theme": "secondary",
+          "theme": "primary",
           "action": "hide"
         }
       ]
@@ -21,17 +22,19 @@
       "name": "wait-for-page-load"
     },
     {
-      "name": "show-instruction-container",
-      "html": "Hallo hehe",
-      "complete": true
-    },
-    {
-      "name": "wait-for-page-load"
+      "name": "extract-data"
     },
     {
       "name": "show-instruction-container",
-      "html": "Da bin ich",
-      "complete": true
+      "html": "<h1>Danke für deine Spende!</h1><p>Das hat geklappt. Vielen dank für deine Spende, Peter. Du bist echt cool. Lass dir nichts anderes erzählen. Mach weiter so. Dufter Typ! Yeah.</p>",
+      "complete": true,
+      "buttons": [
+        {
+          "label": "Alles klar",
+          "theme": "primary",
+          "action": "hide"
+        }
+      ]
     }
   ]
 }

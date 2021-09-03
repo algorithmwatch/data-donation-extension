@@ -1,0 +1,33 @@
+{
+  "name": "Testconfig",
+  "matches": ["https://check24.de", "https://www.check24.de", "https://hausratversicherungen.check24.de"],
+  "steps": [
+    {
+      "name": "wait-for-page-load"
+    },
+    {
+      "name": "show-instruction-container",
+      "html": "<h1>Möchtest du Daten spenden?</h1><p>Du kannst Daten von [Seitenname] an Unding spenden. Du hilfst damit diesen und jenen Menschen.</p><p>Klicke auf \"Daten spenden\", um loszulegen.</p>",
+      "buttons": [
+        {
+          "label": "Daten spenden",
+          "theme": "primary",
+          "action": "submit"
+        },
+        {
+          "label": "Ausblenden",
+          "theme": "secondary",
+          "action": "cancel"
+        }
+      ]
+    },
+    {
+      "name": "open-url",
+      "url": "https://hausratversicherungen.check24.de"
+    },
+    {
+      "name": "show-instruction-container",
+      "html": "wasssss"
+    }
+  ]
+}

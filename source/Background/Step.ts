@@ -6,11 +6,7 @@ const createStep = ({name, ...props}: ConfigStep): BackgroundStep => ({
   data: null,
 
   saveData(data): void {
-    if (!this.data) {
-      this.data = data;
-    } else {
-      this.data = [...this.data, data];
-    }
+    this.data = data;
   },
 });
 

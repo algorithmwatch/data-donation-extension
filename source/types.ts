@@ -15,6 +15,12 @@ export interface MessageService {
   sendMessage: (message: GenericMessage) => void;
 }
 
+export interface BackendService {
+  configs: Config[];
+  loadRemoteConfigs: () => void;
+  uploadData: (data: any) => void;
+}
+
 export interface MessageServiceCallbackParams {
   message: GenericMessage;
   tab: Tabs.Tab | undefined;
@@ -77,6 +83,7 @@ export interface ConfigStep extends StepProps {
 export interface Config {
   name: string;
   matches: string[];
+  start_url: string;
   steps: ConfigStep[];
 }
 
@@ -86,6 +93,7 @@ export interface StepHandler {
   handleStep: (step: GenericMessage['data']) => HandleStepResult;
   getCurrentStep: () => BackgroundStep;
   setNextStepIndex: () => void;
+  exportData: () => {[key: string]: any}[];
 }
 
 export interface Session {

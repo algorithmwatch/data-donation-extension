@@ -49,6 +49,12 @@ const createStepHandler = ({steps}: Config): StepHandler => ({
     this.currentStepIndex =
       nextIndex >= this.steps.length ? this.currentStepIndex : nextIndex;
   },
+
+  exportData(): {[key: string]: any}[] {
+    return this.steps
+      .filter((step) => step.data)
+      .map(({name, data}) => ({name, data}));
+  },
 });
 
 export default createStepHandler;
