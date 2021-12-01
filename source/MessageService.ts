@@ -1,4 +1,4 @@
-import {browser} from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import {MessageService} from './types';
 
 const createMessageService = (): MessageService => ({

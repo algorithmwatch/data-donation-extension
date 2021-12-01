@@ -1,4 +1,4 @@
-import {browser} from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import {BackendService, Config} from './types';
 import testConfigs from './test-configs.json';
 

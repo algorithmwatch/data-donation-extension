@@ -1,4 +1,5 @@
-import {browser} from 'webextension-polyfill-ts';
+import browser, {WebNavigation} from 'webextension-polyfill';
+// import {webNavigation} from '@types/webextension-polyfill';
 import createMessageService from '../MessageService';
 import createSessionManager from './SessionManager';
 import createBackendService from '../BackendService';
@@ -73,19 +74,20 @@ const init = async (): Promise<void> => {
 
     // remove session on tab refresh
     // browser.webNavigation.onCommitted.addListener(({url, transitionType, transitionQualifiers}), filter);
+    interface CustomOnCommittedDetailsType
+      extends Omit<WebNavigation.OnCommittedDetailsType, 'transitionType'> {
+      transitionType?: string;
+    }
     browser.webNavigation.onCommitted.addListener(
-      (details) => {
-        const {tabId} = details;
-        if (
-          typeof details.transitionType !== 'undefined' &&
-          details.transitionType === 'reload' &&
-          sessionManager.getSession(tabId)
-        ) {
+      ({tabId, transitionType}: CustomOnCommittedDetailsType): void => {
+        if (transitionType === 'reload' && sessionManager.getSession(tabId)) {
           console.debug('Remove session for Tab', tabId);
           sessionManager.removeSession(tabId);
         }
       },
-      {url: []}
+      {
+        url: [],
+      }
     );
   });
 };

@@ -1,5 +1,5 @@
 import {ReactNode} from 'react';
-import {Tabs, Runtime} from 'webextension-polyfill-ts';
+import {Tabs, Runtime} from 'webextension-polyfill';
 
 export interface MessageService {
   connectionName: string;
