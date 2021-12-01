@@ -35,7 +35,7 @@ export interface GenericMessage {
   data?: any;
 }
 
-export interface InstructionContainerButton {
+export interface DialogButton {
   type?: 'button' | 'submit';
   size?: 'small' | 'medium' | 'large';
   theme?: 'primary' | 'secondary';
@@ -54,10 +54,10 @@ export interface StepProps {
 export interface StepButton {
   label: string;
   action: string;
-  theme: InstructionContainerButton['theme'];
+  theme: DialogButton['theme'];
 }
 
-export interface InstructionContainerProps extends StepProps {
+export interface DialogProps extends StepProps {
   html: string;
   complete?: boolean;
   buttons?: StepButton[];

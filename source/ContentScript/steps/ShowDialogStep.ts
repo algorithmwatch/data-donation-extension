@@ -1,7 +1,7 @@
 import {render, unmountComponentAtNode} from 'react-dom';
 import Step from './Step';
-import InstructionContainer from '../components/InstructionContainer';
-import {InstructionContainerProps} from '../../types';
+import Dialog from '../components/Dialog';
+import {DialogProps} from '../../types';
 
 class ShowInstructionContainerStep extends Step {
   async run(): Promise<ReturnType<Step['finish']>> {
@@ -30,10 +30,7 @@ class ShowInstructionContainerStep extends Step {
       }
     };
 
-    render(
-      InstructionContainer(this.props as InstructionContainerProps),
-      rootElement
-    );
+    render(Dialog(this.props as DialogProps), rootElement);
 
     // step can be marked "complete" by config
     // in case you want to keep the container

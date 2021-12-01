@@ -1,9 +1,9 @@
-import ShowInstructionContainerStep from './ShowInstructionContainerStep';
+import ShowDialogStep from './ShowDialogStep';
 import OpenUrlStep from './OpenUrlStep';
 import ExtractDataStep from './ExtractDataStep';
 
 const map: {[key: string]: any} = {
-  ShowInstructionContainerStep,
+  ShowDialogStep,
   OpenUrlStep,
   ExtractDataStep,
 };

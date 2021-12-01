@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import React from 'react';
-import {InstructionContainerButton} from '../../types';
+import {DialogButton} from '../../types';
 
 export default function Button({
   type = 'button',
@@ -12,7 +12,7 @@ export default function Button({
   disabled = false,
   onClick,
   children,
-}: InstructionContainerButton): React.ReactElement {
+}: DialogButton): React.ReactElement {
   // set button content
   const buttonContent = [];
 

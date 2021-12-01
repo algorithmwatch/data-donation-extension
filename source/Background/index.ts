@@ -70,6 +70,23 @@ const init = async (): Promise<void> => {
         sessionManager.removeSession(tabId);
       }
     });
+
+    // remove session on tab refresh
+    // browser.webNavigation.onCommitted.addListener(({url, transitionType, transitionQualifiers}), filter);
+    browser.webNavigation.onCommitted.addListener(
+      (details) => {
+        const {tabId} = details;
+        if (
+          typeof details.transitionType !== 'undefined' &&
+          details.transitionType === 'reload' &&
+          sessionManager.getSession(tabId)
+        ) {
+          console.debug('Remove session for Tab', tabId);
+          sessionManager.removeSession(tabId);
+        }
+      },
+      {url: []}
+    );
   });
 };
 
