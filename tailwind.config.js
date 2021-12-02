@@ -87,6 +87,9 @@ module.exports = {
           1000: '#0D1823',
         },
       },
+      boxShadow: {
+        dialog: '4px 5px 0px rgba(0, 0, 0, 0.18)',
+      },
     },
   },
   variants: {

@@ -42,13 +42,13 @@ export default function Button({
 
   const buttonSize = {
     small: 'aw-px-3 aw-py-2.5 aw-text-sm',
-    medium: 'aw-px-5 aw-py-3 aw-text-lg aw-rounded-md',
+    medium: 'aw-px-5 aw-py-3 aw-text-base',
     large: 'aw-px-6 aw-py-5 aw-text-xl',
   };
 
   const buttonTheme = {
-    secondary: cn('aw-text-white aw-bg-transparent aw-border-none'),
-    primary: cn('aw-border-2 aw-text-white', {
+    secondary: cn('aw-text-brown-1000 aw-bg-transparent aw-border-none'),
+    primary: cn('aw-border-2 aw-text-brown-1000', {
       'aw-border-yellow-400 aw-bg-yellow-500 aw-bg-opacity-10 hover:aw-bg-yellow-600 focus:aw-ring-4 focus:aw-ring-yellow-300 focus:aw-ring-opacity-50':
         !disabled,
     }),
