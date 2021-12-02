@@ -1,5 +1,5 @@
+import * as React from 'react';
 import cn from 'classnames';
-import React from 'react';
 import {DialogButton} from '../../types';
 
 export default function Button({

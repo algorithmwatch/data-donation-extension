@@ -3,18 +3,9 @@ import Step from './Step';
 import Dialog from '../components/Dialog';
 import {DialogProps} from '../../types';
 
-class ShowInstructionContainerStep extends Step {
+class ShowDialogStep extends Step {
   async run(): Promise<ReturnType<Step['finish']>> {
-    const rootElementId = 'aw-extension-instruction-container';
-
-    // check if react root exists already and create if not
-    let rootElement = document.getElementById(rootElementId);
-
-    if (!rootElement) {
-      rootElement = document.createElement('div');
-      rootElement.id = rootElementId;
-      document.body.appendChild(rootElement);
-    }
+    const rootElement = this.getDialogRoot();
 
     // add callback to mark current step as complete/incomplete
     this.props.onButtonClick = (action?: string): void => {
@@ -47,4 +38,4 @@ class ShowInstructionContainerStep extends Step {
   }
 }
 
-export default ShowInstructionContainerStep;
+export default ShowDialogStep;

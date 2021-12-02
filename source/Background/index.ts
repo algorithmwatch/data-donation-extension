@@ -86,6 +86,7 @@ const init = async (): Promise<void> => {
         }
       },
       {
+        // TODO: populate this array with urls in config
         url: [],
       }
     );

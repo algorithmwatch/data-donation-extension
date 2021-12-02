@@ -57,9 +57,16 @@ export interface StepButton {
   theme: DialogButton['theme'];
 }
 
+export interface OnboardingDialogProps {
+  [key: string]: any;
+  // name
+  // title
+  // description
+}
+
 export interface DialogProps extends StepProps {
-  html: string;
-  complete?: boolean;
+  // html: string;
+  // complete?: boolean;
   buttons?: StepButton[];
   onButtonClick?: (action?: string) => void;
 }

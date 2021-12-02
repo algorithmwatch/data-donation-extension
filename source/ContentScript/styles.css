@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.aw-dialog-content {
+/* .aw-dialog-content {
   @apply aw-font-sans aw-text-lg aw-text-white;
   h1 {
     @apply aw-text-2xl aw-mb-4 aw-mt-0;
@@ -13,4 +13,4 @@
   p {
     @apply aw-mb-4 aw-mt-0;
   }
-}
+} */
