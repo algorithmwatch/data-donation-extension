@@ -47,18 +47,20 @@ export default function Button({
   };
 
   const buttonTheme = {
-    secondary: cn('aw-text-brown-1000 aw-bg-transparent aw-border-none'),
-    primary: cn('aw-border-2 aw-text-brown-1000', {
-      'aw-border-yellow-400 aw-bg-yellow-500 aw-bg-opacity-10 hover:aw-bg-yellow-600 focus:aw-ring-4 focus:aw-ring-yellow-300 focus:aw-ring-opacity-50':
-        !disabled,
-    }),
+    secondary: cn(
+      'aw-font-normal aw-bg-transparent aw-border-none hover:aw-underline'
+    ),
+    primary: cn(
+      'aw-font-bold aw-rounded-full aw-border aw-border-solid aw-border-brown-1000 aw-bg-white hover:aw-bg-orange-100'
+    ),
   };
 
   const button = (
     <button
       // eslint-disable-next-line react/button-has-type
       type={type}
-      className={`aw-font-sans aw-cursor-pointer aw-inline-flex aw-flex-nowrap aw-items-center aw-justify-center aw-font-medium focus:aw-outline-none aw-leading-none aw-transition aw-duration-150 aw-ease-in-out ${buttonSize[size]} ${buttonTheme[theme]} ${classNames}`}
+      style={{minWidth: 200}}
+      className={`aw-font-sans aw-text-brown-1000 aw-cursor-pointer aw-inline-flex aw-flex-nowrap aw-items-center aw-justify-center focus:aw-outline-none aw-leading-none aw-transition aw-duration-150 aw-ease-in-out ${buttonSize[size]} ${buttonTheme[theme]} ${classNames}`}
       disabled={disabled}
       onClick={onClick}
     >

@@ -55,9 +55,18 @@ export interface StepButton {
   label: string;
   action: string;
   theme: DialogButton['theme'];
+  size?: DialogButton['size'];
 }
 
 export interface OnboardingDialogProps {
+  [key: string]: any;
+}
+
+export interface OffboardingDialogProps {
+  [key: string]: any;
+}
+
+export interface InstructionDialogProps {
   [key: string]: any;
   // name
   // title

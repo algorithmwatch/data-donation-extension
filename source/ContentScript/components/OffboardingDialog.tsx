@@ -2,16 +2,15 @@
 // import browser from 'webextension-polyfill';
 import * as React from 'react';
 import parse from 'html-react-parser';
-import {OnboardingDialogProps, StepButton} from '../../types';
+import {OffboardingDialogProps, StepButton} from '../../types';
 import Dialog from './Dialog';
-import Logo from './Logo';
 
 function OnboardingDialog({
-  title,
-  description,
+  text1,
+  text2,
   onCancel,
   onSubmit,
-}: OnboardingDialogProps): React.ReactElement {
+}: OffboardingDialogProps): React.ReactElement {
   const [contentIndex, setContentIndex] = React.useState(0);
 
   const onButtonClick = (action?: string): void => {
@@ -27,43 +26,12 @@ function OnboardingDialog({
   if (contentIndex === 0) {
     const buttons: StepButton[] = [
       {
-        label: 'Nicht mehr fragen',
-        action: 'cancel',
-        theme: 'secondary',
-        size: 'small',
-      },
-    ];
-    return (
-      <Dialog
-        buttons={buttons}
-        onButtonClick={onButtonClick}
-        onCloseClick={(): void => onCancel()}
-        className="aw-text-center"
-      >
-        <Logo className="aw-w-12 aw-h-12 aw-mt-1 aw-mb-2 mx-auto" />
-        <div className="aw-space-y-4 aw-mb-2">
-          <div style={{maxWidth: 220}} className="aw-mx-auto">
-            Hilf uns auf dieser Website folgendes zu untersuchen:
-          </div>
-          <div
-            className="aw-bg-orange-100 aw-rounded-xl aw-p-4 aw-cursor-pointer aw-border-4 aw-border-solid aw-border-transparent hover:aw-border-orange-300"
-            onClick={(): void => setContentIndex(contentIndex + 1)}
-          >
-            {parse(title)}
-          </div>
-        </div>
-      </Dialog>
-    );
-  }
-  if (contentIndex === 1) {
-    const buttons: StepButton[] = [
-      {
-        label: 'Ja, klar',
-        action: 'submit',
+        label: 'Ja, gerne',
+        action: 'next',
         theme: 'primary',
       },
       {
-        label: 'Gerade nicht',
+        label: 'Nein',
         action: 'cancel',
         theme: 'secondary',
       },
@@ -75,8 +43,36 @@ function OnboardingDialog({
         onCloseClick={(): void => onCancel()}
         className="aw-text-center aw-pt-8"
       >
-        <div className="aw-mx-auto aw-mb-4" style={{maxWidth: 260}}>
-          {parse(description)}
+        <div style={{maxWidth: 250}} className="aw-mx-auto aw-mb-4">
+          {parse(text1)}
+        </div>
+      </Dialog>
+    );
+  }
+  if (contentIndex === 1) {
+    const buttons: StepButton[] = [
+      {
+        label: 'Schließen',
+        action: 'cancel',
+        theme: 'secondary',
+      },
+    ];
+    return (
+      <Dialog
+        buttons={buttons}
+        onButtonClick={onButtonClick}
+        onCloseClick={(): void => onCancel()}
+        className="aw-text-center aw-pt-8"
+      >
+        <div className="aw-mx-auto aw-mb-4" style={{maxWidth: 250}}>
+          <div>{parse(text2)}</div>
+          <div className="mt-4">
+            <input
+              type="text"
+              placeholder="Deine E-Mail-Adresse"
+              className="aw-font-sans aw-text-base aw-px-1 aw-py-2 aw-leading-none aw-text-brown-1000 aw-bg-white aw-border aw-border-solid aw-border-brown-1000 focus:aw-outline-none focus:aw-ring focus:aw-ring-orange-300"
+            />
+          </div>
         </div>
       </Dialog>
     );

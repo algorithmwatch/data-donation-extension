@@ -8,25 +8,10 @@
         "name": "wait-for-page-load"
       },
       {
-        "name": "show-onboarding-dialog",
+        "name": "show-dialog",
+        "component": "onboarding",
         "title": "Hängen die Kosten der <strong>Hausratsversicherung</strong> mit dem Wohnort zusammen?",
         "description": "In Kooperation mit PARTNERNAME wollen wir untersuchen, ob die Kosten der Hausratsversicherung mit dem Wohnort zusammenhängen. Kannst du uns bitte helfen?"
-      },
-      {
-        "name": "show-dialog",
-        "html": "Detailierte Erklärung zur Sache",
-        "buttons": [
-          {
-            "label": "Ok, bin bereit",
-            "theme": "primary",
-            "action": "submit"
-          },
-          {
-            "label": "Abbrechen",
-            "theme": "secondary",
-            "action": "cancel"
-          }
-        ]
       },
       {
         "name": "open-url",
@@ -37,15 +22,9 @@
       },
       {
         "name": "show-dialog",
-        "html": "<h1>Hallo Peter</h1><p>Bitte fülle das Formular aus und klicke anschließend auf <strong>\"Ergebnis direkt anzeigen\"</strong>.</p>",
-        "complete": true,
-        "buttons": [
-          {
-            "label": "Ausblenden",
-            "theme": "primary",
-            "action": "hide"
-          }
-        ]
+        "component": "instruction",
+        "description": "Bitte ergänze im Formular die PLZ. Das Geburtsdatum muss nicht stimmen. Bitte wähle das Geburtsjahr 1980. Setze ein Haken bei “Ich habe...” und wähle “Ergebnisse direkt anzeigen”.",
+        "complete": true
       },
       {
         "name": "wait-for-page-load"
@@ -55,15 +34,9 @@
       },
       {
         "name": "show-dialog",
-        "html": "<h1>Danke für deine Spende!</h1><p>Das hat geklappt. Vielen dank für deine Spende, Peter. Du bist echt cool. Lass dir nichts anderes erzählen. Mach weiter so. Dufter Typ! Yeah.</p>",
-        "complete": true,
-        "buttons": [
-          {
-            "label": "Alles klar",
-            "theme": "primary",
-            "action": "hide"
-          }
-        ]
+        "component": "offboarding",
+        "text1": "Wir würden die Ergebnisse jetzt gerne speichern, um mit Hilfe deiner Datenspende und der von bereits [x] anderen zu untersuchen, ob man je nach Wohnort mehr oder weniger für die Hausratsversicherung zahlen muss. Spendest du uns deine Daten bitte?",
+        "text2": "Vielen Dank. Wenn du über die Ergebnisse informiert werden möchtest, trage hier deine E-Mail-Adresse ein. Wir halten dich auf dem Laufenden."
       }
     ]
   }

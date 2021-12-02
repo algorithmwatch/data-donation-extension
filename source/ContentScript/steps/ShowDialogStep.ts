@@ -1,27 +1,45 @@
+import * as React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import Step from './Step';
-import Dialog from '../components/Dialog';
-import {DialogProps} from '../../types';
+import OnboardingDialog from '../components/OnboardingDialog';
+import InstructionDialog from '../components/InstructionDialog';
+import OffboardingDialog from '../components/OffboardingDialog';
 
 class ShowDialogStep extends Step {
   async run(): Promise<ReturnType<Step['finish']>> {
     const rootElement = this.getDialogRoot();
 
-    // add callback to mark current step as complete/incomplete
-    this.props.onButtonClick = (action?: string): void => {
-      if (action === 'submit') {
-        this.complete = true;
-      } else if (action === 'cancel') {
-        this.complete = false;
-      }
-
+    const unmount = (): void => {
       // unmount component
       if (rootElement) {
         unmountComponentAtNode(rootElement);
       }
     };
+    const onCancel = (): void => {
+      this.complete = false;
+      unmount();
+    };
+    const onSubmit = (): void => {
+      this.complete = true;
+      unmount();
+    };
 
-    render(Dialog(this.props as DialogProps), rootElement);
+    let component;
+    const componentName = this.props.component;
+    if (componentName === 'onboarding') {
+      component = OnboardingDialog;
+    } else if (componentName === 'instruction') {
+      component = InstructionDialog;
+    } else if (componentName === 'offboarding') {
+      component = OffboardingDialog;
+    } else {
+      throw new Error('No valid component name specified');
+    }
+
+    this.props.onCancel = onCancel;
+    this.props.onSubmit = onSubmit;
+
+    render(React.createElement(component, this.props, null), rootElement);
 
     // step can be marked "complete" by config
     // in case you want to keep the container

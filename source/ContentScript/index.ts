@@ -1,12 +1,9 @@
-import {camelCase, toUpper} from 'lodash';
+import {pascalCase} from '../helper';
 import createMessageService from '../MessageService';
 import {GenericMessage} from '../types';
 import steps from './steps';
 import Step from './steps/Step';
 import './styles.css';
-
-const pascalCase = (str: string): string =>
-  camelCase(str).replace(/^(.)/, toUpper);
 
 const handleStep = async (
   data: GenericMessage['data']
