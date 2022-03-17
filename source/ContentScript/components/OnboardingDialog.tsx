@@ -58,12 +58,12 @@ function OnboardingDialog({
   if (contentIndex === 1) {
     const buttons: StepButton[] = [
       {
-        label: 'Ja, klar',
+        label: 'Mitmachen',
         action: 'submit',
         theme: 'primary',
       },
       {
-        label: 'Gerade nicht',
+        label: 'Jetzt nicht',
         action: 'cancel',
         theme: 'secondary',
       },

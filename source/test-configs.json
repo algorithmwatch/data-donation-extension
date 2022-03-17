@@ -1,7 +1,7 @@
 [
   {
     "name": "Testconfig",
-    "start_url": "https://hausratversicherungen.check24.de",
+    "start_url": "https://vorsorge.check24.de/risikoleben/benutzereingaben/",
     "matches": ["https://www.check24.de/"],
     "steps": [
       {
@@ -10,12 +10,12 @@
       {
         "name": "show-dialog",
         "component": "onboarding",
-        "title": "Hängen die Kosten der <strong>Hausratsversicherung</strong> mit dem Wohnort zusammen?",
-        "description": "In Kooperation mit PARTNERNAME wollen wir untersuchen, ob die Kosten der Hausratsversicherung mit dem Wohnort zusammenhängen. Kannst du uns bitte helfen?"
+        "title": "Wie wirken Berufsbezeichnungen auf den Preis einer Risikolebensversicherung?",
+        "description": "Wie Menschen ihren Beruf bezeichnen, unterscheidet sich wahrscheinlich selbst zwischen denen, die denselben Job ausüben. Wir wollen herausfinden, ob bzw. welchen Einfluss es auf den Preis einer Risikolebensversicherung hat, wie Nutzerinnen und Nutzer ihren Beruf beim Antrag angeben."
       },
       {
         "name": "open-url",
-        "url": "https://hausratversicherungen.check24.de"
+        "url": "https://vorsorge.check24.de/risikoleben/benutzereingaben/"
       },
       {
         "name": "wait-for-page-load"
